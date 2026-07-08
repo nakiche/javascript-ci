@@ -58,7 +58,12 @@ jobs:
     - name: Write Summary
       if: always()
       run: |
-        echo "## Test Results 🧪" >> $GITHUB_STEP_SUMMARY
-        echo "$(cat test-results.json | jq '.numPassedTests') tests passed" >> $GITHUB_STEP_SUMMARY
-        echo "$(cat test-results.json | jq '.numFailedTests') tests failed" >> $GITHUB_STEP_SUMMARY  
+          echo "## Test Results 🧪" >> $GITHUB_STEP_SUMMARY
+          PASSED=$(grep -o 'tests="[0-9]*"' junit.xml | head -1 | grep -o '[0-9]*')
+          FAILED=$(grep -o 'failures="[0-9]*"' junit.xml | head -1 | grep -o '[0-9]*')
+          
+          echo "| Status | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| ✅ Passed | $PASSED |" >> $GITHUB_STEP_SUMMARY
+          echo "| ❌ Failed | $FAILED |" >> $GITHUB_STEP_SUMMARY
         
