@@ -28,4 +28,23 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test
+
+    - name: Run Tests
+      run: npm test -- --reporters=jest-junit  # generates XML report
+
+    - name: Test Reporter
+      # You may pin to the exact commit or the version.
+      # uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2
+      uses: dorny/test-reporter@v3.0.0
+      with:
+        # Name or regex of artifact containing test results
+        artifact: # optional
+        # Name of the check run
+        name:  Jest Tests
+        # Comma-separated list of paths to test results
+   
+        path: junit.xml
+        # The fast-glob library that is internally used interprets backslashes as escape characters.    
+        reporter: 
+        # Limits which test suites are listed. Supported options:
+        - all
