@@ -45,6 +45,6 @@ jobs:
    
         path: junit.xml
         # The fast-glob library that is internally used interprets backslashes as escape characters.    
-        reporter: all
+        reporter: jest-juit
         # Limits which test suites are listed. Supported options:
         
