@@ -58,12 +58,14 @@ jobs:
     - name: Write Summary
       if: always()
       run: |
-          echo "## Test Results 🧪" >> $GITHUB_STEP_SUMMARY
-          PASSED=$(grep -o 'tests="[0-9]*"' junit.xml | head -1 | grep -o '[0-9]*')
-          FAILED=$(grep -o 'failures="[0-9]*"' junit.xml | head -1 | grep -o '[0-9]*')
-          
-          echo "| Status | Count |" >> $GITHUB_STEP_SUMMARY
-          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| ✅ Passed | $PASSED |" >> $GITHUB_STEP_SUMMARY
-          echo "| ❌ Failed | $FAILED |" >> $GITHUB_STEP_SUMMARY
+        TOTAL=$(grep -o 'tests="[0-9]*"' junit.xml | head -1 | grep -o '[0-9]*')
+        FAILED=$(grep -o 'failures="[0-9]*"' junit.xml | head -1 | grep -o '[0-9]*')
+        PASSED=$((TOTAL - FAILED))   # ✅ actual passed count
+    
+        echo "## Test Results 🧪" >> $GITHUB_STEP_SUMMARY
+        echo "| Status | Count |" >> $GITHUB_STEP_SUMMARY
+        echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+        echo "| ✅ Passed | $PASSED |" >> $GITHUB_STEP_SUMMARY
+        echo "| ❌ Failed | $FAILED |" >> $GITHUB_STEP_SUMMARY
+        echo "| 📋 Total  | $TOTAL  |" >> $GITHUB_STEP_SUMMARY
         
