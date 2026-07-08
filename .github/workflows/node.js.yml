@@ -47,4 +47,14 @@ jobs:
         # The fast-glob library that is internally used interprets backslashes as escape characters.    
         reporter: jest-junit
         # Limits which test suites are listed. Supported options:
+
+    - name: Run Tests Github Actions UI
+      run: npm test -- --json --outputFile=test-results.json
+    
+    - name: Write Summary
+      if: always()
+      run: |
+        echo "## Test Results 🧪" >> $GITHUB_STEP_SUMMARY
+        echo "$(cat test-results.json | jq '.numPassedTests') tests passed" >> $GITHUB_STEP_SUMMARY
+        echo "$(cat test-results.json | jq '.numFailedTests') tests failed" >> $GITHUB_STEP_SUMMARY  
         
