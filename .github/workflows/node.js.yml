@@ -50,6 +50,10 @@ jobs:
 
     - name: Run Tests Github Actions UI
       run: npm test -- --json --outputFile=test-results.json
+      
+    - name: Debug - List files
+      if: always()
+      run: ls -la *.json || echo "No JSON files found"
     
     - name: Write Summary
       if: always()
